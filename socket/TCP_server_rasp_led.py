@@ -3,11 +3,7 @@
 import socket
 import RPi.GPIO as GPIO
 import time
-
-TCP_IP = '192.168.1.249'
-TCP_PORT = 5005
-BUFFER_SIZE = 20  # Normally 1024, but we want fast response
-
+import sys
 
 GPIO.setmode(GPIO.BCM)    #usiamo la numerazione BCM
 GPIO.setwarnings(False)
@@ -34,9 +30,11 @@ GPIO.setup(ledSei, GPIO.OUT)   #imposto Pin 23 ad out
 GPIO.setup(ledSette, GPIO.OUT)   #imposto Pin 24 ad out
 GPIO.setup(ledOtto, GPIO.OUT)   #imposto Pin 25 ad out
 
-#per utilizzare i GPIO:
 
-
+#configuro il server in ascolto
+TCP_IP = '192.168.1.249'
+TCP_PORT = 5005
+BUFFER_SIZE = 20  # Normally 1024, but we want fast response
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((TCP_IP, TCP_PORT))
@@ -56,7 +54,7 @@ while 1:
 		
 			print "LED on"
 			GPIO.output(led[i],GPIO.HIGH) 	#accendo il led, corrispondente al comando: gpio write 0 1
-			time.sleep(1)             		#attendo 1 secondo
+			time.sleep(0.1)             		#attendo 1 secondo
 			print "LED off"
 			GPIO.output(led[i],GPIO.LOW)  	#spengo il led, corrispondente al comando: gpio write 0 0
 			
@@ -64,5 +62,7 @@ while 1:
 	
 	
 	conn.send(data)  # echo
+    attesa = input('vuoi attendere un\'altra connessione? (rispondere 1 o 0)\n')
+
 conn.close()
 
