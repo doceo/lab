@@ -24,7 +24,7 @@ try:
     amount_expected = len(message)
     
     while amount_received < amount_expected:
-        data = sock.recv(32)
+        data = sock.recv(10)
         amount_received += len(data)
         print >>sys.stderr, 'ricevuto "%s"' % data
 
