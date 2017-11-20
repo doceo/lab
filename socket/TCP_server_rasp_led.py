@@ -4,6 +4,41 @@ import socket
 import RPi.GPIO as GPIO
 import time
 import sys
+import random
+	
+
+
+
+def inviaCodice(parola):
+	gruppi = ['GACP', 'DLMT88', 'DjIckar', 'Giosimera', 'Enzotor', 'Darkdj651', 'Vittraff', 'Pedataangelinocastelli']
+
+	trovato = parola in gruppi
+	
+	if trovato:
+		domanda = random.randint(1, 10)
+	else:
+		domanda = -1	
+	
+	return domanda
+	
+				
+
+def accendiLed():
+
+	nLed = 8
+	
+	for giri in range(10):
+		while i<nLed:
+		
+			print "LED on"
+			GPIO.output(led[i],GPIO.HIGH) 	#accendo il led, corrispondente al comando: gpio write 0 1
+			time.sleep(0.1)             		#attendo 1 secondo
+			print "LED off"
+			GPIO.output(led[i],GPIO.LOW)  	#spengo il led, corrispondente al comando: gpio write 0 0
+			
+			i = i+1
+
+
 
 GPIO.setmode(GPIO.BCM)    #usiamo la numerazione BCM
 GPIO.setwarnings(False)
@@ -32,37 +67,42 @@ GPIO.setup(ledOtto, GPIO.OUT)   #imposto Pin 25 ad out
 
 
 #configuro il server in ascolto
-TCP_IP = '192.168.1.249'
-TCP_PORT = 5005
+
 BUFFER_SIZE = 20  # Normally 1024, but we want fast response
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((TCP_IP, TCP_PORT))
-s.listen(1)
+#crea un socket TCP/IP
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Associa IP alla porta
+server_address = ('192.168.1.249', 5005)
+print >>sys.stderr, 'in ascolto su %s porta %s' % server_address
+sock.bind(server_address)
+
+sock.listen(1)
 
 conn, addr = s.accept()
 print 'Connection address:', addr
 while 1:
-	data = conn.recv(BUFFER_SIZE)
-	if not data: break
-	print "received data:", data
+	# Wait for a connection
+    print >>sys.stderr, 'In attesa di connessione...'
+    connection, client_address = sock.accept()
 	
-	nLed = int(data)
-	
-	for giri in range(10):
-		while i<nLed:
-		
-			print "LED on"
-			GPIO.output(led[i],GPIO.HIGH) 	#accendo il led, corrispondente al comando: gpio write 0 1
-			time.sleep(0.1)             		#attendo 1 secondo
-			print "LED off"
-			GPIO.output(led[i],GPIO.LOW)  	#spengo il led, corrispondente al comando: gpio write 0 0
-			
-			i = i+1
-	
-	
-	conn.send(data)  # echo
-    attesa = input('vuoi attendere un\'altra connessione? (rispondere 1 o 0)\n')
+	try:
+        print >>sys.stderr, 'una connessione da', client_address
 
-conn.close()
-
+        # Receive the data in small chunks and retransmit it
+        while True:
+            data = connection.recv(32)
+            print >>sys.stderr, 'ricevuto "%s"' % data
+            if data:
+                print >>sys.stderr, 'rinvia il dato al client'
+                connection.sendall(inviaCodice(data))
+            else:
+                print >>sys.stderr, 'nessun altro dato da', client_address
+                break
+            
+    finally:
+        # Clean up the connection
+        connection.close()
+	
+	
