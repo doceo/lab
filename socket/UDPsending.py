@@ -1,7 +1,7 @@
 #https://wiki.python.org/moin/UdpCommunication
 
 import socket
-UDP_IP = "localhost"
+UDP_IP = "192.168.1.249"
 UDP_PORT = 5005
 MESSAGE = "Hello, World!"
 
