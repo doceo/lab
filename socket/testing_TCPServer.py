@@ -2,40 +2,11 @@
 
 import socket
 import sys
-import random
 import string
+from testing_function import *
 
 #definisco ip e porta del socket
-server_address = ('localhost', 5001)
-
-#funzione per riconoscere l'appartenenza ad un gruppo
-def inviaCodice(parola):
-	gruppi = ['GACP', 'DLMT88', 'DjIckar', 'Giosimera', 'Enzotor', 'Darkdj651', 'Vittraff', 'Pedataangelinocastelli']
-
-	trovato = parola in gruppi
-	
-	if trovato:
-		quesito = 'domande/domanda' + str(random.randint(1, 4)) + '.txt'
-
-		#print quesito
-
-		in_file = open(quesito,"r")
-		domanda = in_file.read()
-		in_file.close()
-
-		
-	else:
-		domanda = str(-1)	
-	
-	return domanda
-
-
-
-
-
-
-
-
+server_address = ('localhost', 5002)
 
 
 # Create a TCP/IP socket
@@ -63,10 +34,11 @@ while (1):
             data = connection.recv(32)
             print >>sys.stderr, 'ricevuto "%s"' % data
             if data:
-                print >>sys.stderr, 'rinvia il dato al client'
                 risposta = inviaCodice(data)
-
+                print >>sys.stderr, 'rispondo al client\n'
+                print >>sys.stderr, 'risposta\n "%s"' % risposta
                 connection.sendall(risposta)
+                print >>sys.stderr, '\n'
                 
                 
             else:
