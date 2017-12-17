@@ -37,7 +37,7 @@ int asseX, asseY, clic;
 
 void setup() {
 
-   pinMode(X, INPUT);
+  pinMode(X, INPUT);
   pinMode(Y, INPUT);
   pinMode(tap, INPUT);
   
@@ -71,7 +71,7 @@ void loop() {
 
 
     String message = (String)asseX + "." + (String)asseY + "." + (String)clic;
- 
+    Serial.println(message);
     
     radio.stopListening();                                    // First, stop listening so we can talk.
     
@@ -109,6 +109,6 @@ void loop() {
 
     }
 
-
+delay(5000);
 } // Loop
 
