@@ -1,0 +1,6 @@
+alla categoria SISD appartengono i seguenti calcolatori:
+
+a) personal computer
+b) i video terminali
+c) le workstation
+d) i mainframe
