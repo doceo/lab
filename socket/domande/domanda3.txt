@@ -1,0 +1,7 @@
+Le applicazioni client-server di tipo enterprise hanno:
+
+a) molti utenti concorrenti che richiedono i servizi
+b) una logica applicativa complessa
+c) archivi di grandi dimensioni con organizzazione di dati centralizzata 
+d) notevoli requisiti di sicurezza
+e) sistemi transazionali
