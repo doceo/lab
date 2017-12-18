@@ -85,8 +85,8 @@ if (role == 1)  {
     
     Serial.println(F("Now sending"));
 
-    myData.asseX = map(analogRead(X), 0, 1024, 0, 10); 
-    myData.asseY= map(analogRead(Y), 0, 1024, 0, 10);
+    myData.asseX = map(analogRead(X), 0, 1024, 0, 20); 
+    myData.asseY= map(analogRead(Y), 0, 1024, 0, 20);
     myData.clic= digitalRead(tap);
     myData.temp = micros();
 
