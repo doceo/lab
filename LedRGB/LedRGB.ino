@@ -1,6 +1,6 @@
 int red = A6;
 int green = A5;
-int blue = A7
+int blue = A7;
 
 void setup() 
 {
