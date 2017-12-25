@@ -12,16 +12,8 @@ pinMode(blue, OUTPUT);
 
 void loop() 
 {
- digitalWrite(red, HIGH);
-delay(500);
-digitalWrite(red, LOW);
-delay(500);
-digitalWrite(green, HIGH);
-delay(500);
-digitalWrite(green, LOW);
-delay(500);
-digitalWrite(blue, HIGH);
-delay(500);
-digitalWrite(blue, LOW);
+analogWrite(blue, random(255)); //la funzione random genera dei numeri casuali in modo da creare dei colori casuali analogWrite(red, random(255)); analogWrite(green, random(255));
+analogWrite(red, random(255));
+analogWrite(green, random(255));
 delay(500);
 }
