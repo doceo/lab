@@ -30,11 +30,11 @@ bool role = 0;
 */
 
 struct dataStruct{
-  int R;
-  int G;
-  int B;
+  int asseX;
+  int asseY;
   unsigned long temp;
 }myData;
+
 
 /**
   impostiamo i parametri per il sensore TCS230 or TCS3200
@@ -100,7 +100,7 @@ void loop() {
 /****************** Ping Out Role ***************************/  
 if (role == 1)  {
     
-    radio.stopListening();                                    // First, stop listening so we can talk.
+    radio.stopListening();                          // First, stop listening so we can talk.
     
     
     Serial.println(F("Now sending"));
@@ -139,11 +139,10 @@ if (role == 1)  {
         Serial.print(F("Sent "));
         Serial.print(time);
         Serial.print(F(", Got response "));
-        Serial.print(myData.temp);
-        Serial.print(F(", Round-trip delay "));
-        Serial.print(time-myData.temp);
-        Serial.print(F(" microseconds Value "));
-        Serial.println(myData.temp);
+        Serial.print(myData.temp);  
+        Serial.print(F(" : "));
+        Serial.println(myData.asseX);
+        Serial.println(myData.asseY);
     }
 
     // Try again 1s later
@@ -162,13 +161,27 @@ if (role == 1)  {
       while (radio.available()) {                          // While there is data ready
         radio.read( &myData, sizeof(myData) );             // Get the payload
       }
+      
+      Serial.print(F("posizione: "));
+      Serial.print(myData.temp);  
+      Serial.print(F(" : "));
+      Serial.println(myData.asseX);
+      Serial.println(myData.asseY);
      
       radio.stopListening();                               // First, stop listening so we can talk  
       char color = colore();                               // ricavo il colore ottenuto
       radio.write( &color, sizeof(color) );              // Send the final one back.      
       radio.startListening();                              // Now, resume listening so we catch the next packets.     
-      Serial.print(F("Sent response "));
-      Serial.print(color);  
+      Serial.print(F("Invia il colore "));
+      switch (color){
+        case 'R':
+          Serial.println("Rosso");
+        case 'G':
+          Serial.println("Verde");
+        case 'B':
+          Serial.println("Blue");
+      }
+      Serial.println(color);  
 
 
    }

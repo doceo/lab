@@ -33,11 +33,12 @@ int X = A1;    // select the input pin for the potentiometer
 int Y = A2;      // select the pin for the LED
 int tap = 3;  // variable to store the value coming from the sensor
 
+char color;
 
 struct dataStruct{
   int asseX;
   int asseY;
-  bool clic;
+//  bool clic;
   unsigned long temp;
 }myData;
 
@@ -87,7 +88,7 @@ if (role == 1)  {
 
     myData.asseX = map(analogRead(X), 0, 1024, 0, 20); 
     myData.asseY= map(analogRead(Y), 0, 1024, 0, 20);
-    myData.clic= digitalRead(tap);
+ //   myData.clic= digitalRead(tap);
     myData.temp = micros();
 
      if (!radio.write( &myData, sizeof(myData) )){
@@ -112,8 +113,11 @@ if (role == 1)  {
 
       
                                                                 // Grab the response, compare, and send to debugging spew
-        radio.read( &myData, sizeof(myData) );
+        radio.read( &color, sizeof(color) );
         unsigned long time = micros();
+
+        Serial.print("identificato il colore ");
+        Serial.println(color); 
         
         // Spew it
         Serial.print(F("Sent "));
@@ -152,7 +156,7 @@ if (role == 1)  {
       Serial.print(F(" : "));
       Serial.println(myData.asseX);
       Serial.println(myData.asseY);
-      Serial.println(myData.clic);
+//      Serial.println(myData.clic);
 
    }
  }
