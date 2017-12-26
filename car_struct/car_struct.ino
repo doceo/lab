@@ -29,24 +29,44 @@ bool role = 0;
 * See http://www.cplusplus.com/doc/tutorial/structures/
 */
 
-int X = A1;    // select the input pin for the potentiometer
-int Y = A2;      // select the pin for the LED
-int tap = 3;  // variable to store the value coming from the sensor
-
-
 struct dataStruct{
-  int asseX;
-  int asseY;
-  bool clic;
+  int R;
+  int G;
+  int B;
   unsigned long temp;
 }myData;
 
+/**
+  impostiamo i parametri per il sensore TCS230 or TCS3200
+**/
+
+
+#define S0 4
+#define S1 5
+#define S2 3
+#define S3 2
+#define sensorOut 6
+
+// inizializza le frequenze base
+int redFrequency = 0;
+int greenFrequency = 0;
+int blueFrequency = 0;
+
+
 void setup() {
 
-  pinMode(X, INPUT);
-  pinMode(Y, INPUT);
-  pinMode(tap, INPUT);
+  pinMode(S0, OUTPUT);
+  pinMode(S1, OUTPUT);
+  pinMode(S2, OUTPUT);
+  pinMode(S3, OUTPUT);
+
+   // Setting the sensorOut as an input
+  pinMode(sensorOut, INPUT);
   
+  // Setting frequency scaling to 20%
+  digitalWrite(S0,HIGH);
+  digitalWrite(S1,LOW);
+
   Serial.begin(115200);
   Serial.println(F("RF24/examples/GettingStarted_HandlingData"));
   Serial.println(F("*** PRESS 'T' to begin transmitting to the other node"));
@@ -85,10 +105,10 @@ if (role == 1)  {
     
     Serial.println(F("Now sending"));
 
-    myData.asseX = map(analogRead(X), 0, 1024, 0, 10); 
-    myData.asseY= map(analogRead(Y), 0, 1024, 0, 10);
-    myData.clic= digitalRead(tap);
-    myData.temp = micros();
+//    myData.asseX = map(analogRead(X), 0, 1024, 0, 10); 
+//    myData.asseY= map(analogRead(Y), 0, 1024, 0, 10);
+//    myData.clic= digitalRead(tap);
+//    myData.temp = micros();
 
      if (!radio.write( &myData, sizeof(myData) )){
        Serial.println(F("failed"));
@@ -144,15 +164,12 @@ if (role == 1)  {
       }
      
       radio.stopListening();                               // First, stop listening so we can talk  
-//      myData.value += 0.01;                                // Increment the float value
-      radio.write( &myData, sizeof(myData) );              // Send the final one back.      
+      char color = colore();                               // ricavo il colore ottenuto
+      radio.write( &color, sizeof(color) );              // Send the final one back.      
       radio.startListening();                              // Now, resume listening so we catch the next packets.     
       Serial.print(F("Sent response "));
-      Serial.print(myData.temp);  
-      Serial.println(F(" : "));
-      Serial.println(myData.asseX);
-      Serial.println(myData.asseY);
-      Serial.println(myData.clic);
+      Serial.print(color);  
+
 
    }
  }
