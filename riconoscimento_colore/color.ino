@@ -69,6 +69,8 @@ char colore (){
     Serial.println(" - BLUE detected!");
       color = 'B';
   }
+
+  return color;
   
 }
 

@@ -91,6 +91,10 @@ if (role == 1)  {
  //   myData.clic= digitalRead(tap);
     myData.temp = micros();
 
+    Serial.println(myData.asseX);
+    Serial.println(myData.asseY);
+    Serial.println(myData.temp);
+     
      if (!radio.write( &myData, sizeof(myData) )){
        Serial.println(F("failed"));
      }
@@ -100,7 +104,7 @@ if (role == 1)  {
     unsigned long started_waiting_at = micros();               // Set up a timeout period, get the current microseconds
     boolean timeout = false;                                   // Set up a variable to indicate if a response was received or not
     
-    while ( ! radio.available() ){                             // While nothing is received
+    while ( !radio.available() ){                             // While nothing is received
       if (micros() - started_waiting_at > 200000 ){            // If waited longer than 200ms, indicate timeout and exit while loop
           timeout = true;
           break;
@@ -110,15 +114,20 @@ if (role == 1)  {
     if ( timeout ){                                             // Describe the results
         Serial.println(F("Failed, response timed out."));
     }else{
-
-      
                                                                 // Grab the response, compare, and send to debugging spew
         radio.read( &color, sizeof(color) );
         unsigned long time = micros();
 
         Serial.print("identificato il colore ");
-        Serial.println(color); 
-        
+        switch (color){
+          case 'R':
+            Serial.println("Rosso");
+          case 'G':
+            Serial.println("Verde");
+          case 'B':
+            Serial.println("Blue");
+        }
+        Serial.println(color);          
         // Spew it
         Serial.print(F("Sent "));
         Serial.print(time);
