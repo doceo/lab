@@ -1,3 +1,34 @@
+void avviaSensoreColore(){
+
+  /**
+  impostiamo i parametri per il sensore TCS230 or TCS3200
+**/
+
+
+  #define S0 4
+  #define S1 5
+  #define S2 3
+  #define S3 2
+  #define sensorOut 6
+
+  // inizializza le frequenze base
+
+
+  pinMode(S0, OUTPUT);
+  pinMode(S1, OUTPUT);
+  pinMode(S2, OUTPUT);
+  pinMode(S3, OUTPUT);
+
+   // Setting the sensorOut as an input
+  pinMode(sensorOut, INPUT);
+  
+  // Setting frequency scaling to 20%
+  digitalWrite(S0,HIGH);
+  digitalWrite(S1,LOW);
+
+
+}
+
 
 
 char colore (){
