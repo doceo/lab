@@ -39,6 +39,9 @@ struct dataStruct{
   int blueFrequency = 0;
 
 
+  int vel= 0;
+  int ster = 0;
+  
 void setup() {
 
   avviaSensoreColore();
@@ -84,12 +87,46 @@ void loop() {
       while (radio.available()) {                          // While there is data ready
         radio.read( &myData, sizeof(myData) );             // Get the payload
       }
+
+      vel = myData.asseY;
+      ster = myData.asseX;
+
+      Serial.print(" vel e ster sono: ");
+      Serial.print(vel);
+      Serial.print(",");
+      Serial.println(ster);
+      if (vel > 10 ) {
+        
+        avanti(abs(vel));
+        Serial.print("avanti ");
+        Serial.println(vel);
+
+      }else if (vel < -10){
+
+        indietro(abs(vel));
+        Serial.print("indietro ");
+        Serial.println(vel);
+
       
-      Serial.print(F("posizione: "));
-      Serial.print(myData.temp);  
-      Serial.print(F(" : "));
-      Serial.println(myData.asseX);
-      Serial.println(myData.asseY);
+      }else {
+        fermo();
+      }
+
+
+      if (ster > 10 ) {
+        
+        destra(abs(vel));
+        Serial.print("destra ");
+        Serial.println(vel);
+      
+      }else if (vel < -10){
+        Serial.print("sinistra ");
+        Serial.println(vel);
+
+        sinistra(abs(vel));
+      }
+      
+
      
       radio.stopListening();                               // First, stop listening so we can talk  
       char color = colore();                               // ricavo il colore ottenuto
@@ -103,6 +140,8 @@ void loop() {
           Serial.println("Verde");
         case 'B':
           Serial.println("Blue");
+        case 'I':
+          Serial.println("Indefinito");
       }
 
 
