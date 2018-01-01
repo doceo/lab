@@ -86,8 +86,8 @@ if (role == 1)  {
     
     Serial.println(F("Now sending"));
 
-    myData.asseX = map(analogRead(X), 0, 1024, 0, 20); 
-    myData.asseY= map(analogRead(Y), 0, 1024, 0, 20);
+    myData.asseX = map(analogRead(X), 0, 1024, -512, 512); 
+    myData.asseY= map(analogRead(Y), 0, 1024, -512, 512);
  //   myData.clic= digitalRead(tap);
     myData.temp = micros();
 
@@ -140,55 +140,7 @@ if (role == 1)  {
     }
 
     // Try again 1s later
-    delay(1000);
-  }
-
-
-
-/****************** Pong Back Role ***************************/
-
-  if ( role == 0 )
-  {
-    
-    if( radio.available()){
-                                                           // Variable for the received timestamp
-      while (radio.available()) {                          // While there is data ready
-        radio.read( &myData, sizeof(myData) );             // Get the payload
-      }
-     
-      radio.stopListening();                               // First, stop listening so we can talk  
-//      myData.value += 0.01;                                // Increment the float value
-      radio.write( &myData, sizeof(myData) );              // Send the final one back.      
-      radio.startListening();                              // Now, resume listening so we catch the next packets.     
-      Serial.print(F("Sent response "));
-      Serial.print(myData.temp);  
-      Serial.print(F(" : "));
-      Serial.println(myData.asseX);
-      Serial.println(myData.asseY);
-//      Serial.println(myData.clic);
-
-   }
- }
-
-
-
-
-/****************** Change Roles via Serial Commands ***************************/
-
-  if ( Serial.available() )
-  {
-    char c = toupper(Serial.read());
-    if ( c == 'T' && role == 0 ){      
-      Serial.print(F("*** CHANGING TO TRANSMIT ROLE -- PRESS 'R' TO SWITCH BACK"));
-      role = 1;                  // Become the primary transmitter (ping out)
-    
-   }else
-    if ( c == 'R' && role == 1 ){
-      Serial.println(F("*** CHANGING TO RECEIVE ROLE -- PRESS 'T' TO SWITCH BACK"));      
-       role = 0;                // Become the primary receiver (pong back)
-       radio.startListening();
-       
-    }
+//    delay(1000);
   }
 
 
