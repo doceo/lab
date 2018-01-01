@@ -4,13 +4,13 @@
 
 
 //definizione dei pin
-static int In1 = 12; //pin digitale per determinare gli stati logici da inviare al modulo
-static int In2 = 13; //pin digitale per determinare gli stati logici da inviare al modulo
-static int ENA = 11; //pin digitale tramite il quale inviare un segnale di tipo PWM tramite la funzione analgWrite()
+static int In1 = A2; //pin digitale per determinare gli stati logici da inviare al modulo
+static int In2 = A3; //pin digitale per determinare gli stati logici da inviare al modulo
+static int ENA = A1; //pin digitale tramite il quale inviare un segnale di tipo PWM tramite la funzione analgWrite()
 
-static int In3 = 12; //pin digitale per determinare gli stati logici da inviare al modulo
-static int In4 = 13; //pin digitale per determinare gli stati logici da inviare al modulo
-static int ENB = 11; //pin digitale tramite il quale inviare un segnale di tipo PWM tramite la funzione analgWrite()
+static int In3 = 10; //pin digitale per determinare gli stati logici da inviare al modulo
+static int In4 = 9; //pin digitale per determinare gli stati logici da inviare al modulo
+static int ENB = A0; //pin digitale tramite il quale inviare un segnale di tipo PWM tramite la funzione analgWrite()
  
 //variabili usate per gestire e mostrare i valori di operaizone
 int potenza;  //valore in uscita dal pin 11
