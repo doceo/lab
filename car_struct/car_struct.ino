@@ -41,6 +41,8 @@ struct dataStruct{
 
   int vel= 0;
   int ster = 0;
+  int X = 1;
+  int Y = 1;
   
 void setup() {
 
@@ -66,6 +68,7 @@ void setup() {
   
   // Start the radio listening for data
   radio.startListening();
+  
   avviamotore();
   fermo();
   
@@ -88,20 +91,24 @@ void loop() {
         radio.read( &myData, sizeof(myData) );             // Get the payload
       }
 
-      vel = myData.asseY;
-      ster = myData.asseX;
+      Y = myData.asseY;
+      X = myData.asseX;
 
       Serial.print(" vel e ster sono: ");
-      Serial.print(vel);
+      Serial.print(Y);
       Serial.print(",");
-      Serial.println(ster);
-      if (vel > 10 ) {
+      Serial.println(X);
+
+      vel = abs(Y);
+      ster = abs(X);
+      
+      if (vel > 10 && ster <10 ) {
         
-        avanti(abs(vel));
+        avanti(vel);
         Serial.print("avanti ");
         Serial.println(vel);
 
-      }else if (vel < -10){
+      }else if (vel < -10 abs(ster) <=10){
 
         indietro(abs(vel));
         Serial.print("indietro ");
@@ -136,12 +143,16 @@ void loop() {
       switch (color){
         case 'R':
           Serial.println("Rosso");
+          break;
         case 'G':
           Serial.println("Verde");
+          break;
         case 'B':
           Serial.println("Blue");
+          break;
         case 'I':
           Serial.println("Indefinito");
+          break;          
       }
 
 
