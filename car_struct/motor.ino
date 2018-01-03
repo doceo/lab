@@ -130,3 +130,57 @@ void sinistra(int potenza) {
 }
 
 
+void sterza(int &Y, int &vel, int &X, int &ster){
+
+   //Definisco il senso di marcia del motore
+  /*
+    mA |   mB  | Evento
+  -----|-------|----------------------
+  LOW  | LOW   | fermo
+  LOW  | HIGH  | Movimento in un senso
+  HIGH | LOW   | Movimento senso opposto
+  HIGH | HIGH  | Fermo
+  */
+  
+        if(Y > 10) {
+        
+        digitalWrite(In1, LOW);
+        digitalWrite(In2, HIGH);
+        digitalWrite(In3, LOW);
+        digitalWrite(In4, HIGH);
+
+            if(X > 10) {
+                analogWrite(ENA, vel);
+                analogWrite(ENB, 1024-ster);
+            
+            }else{
+                analogWrite(ENA, 1024-ster);
+                analogWrite(ENB, vel);
+            
+             }
+        
+        }else{
+
+            digitalWrite(In1, LOW);
+            digitalWrite(In2, HIGH);
+            digitalWrite(In3, LOW);
+            digitalWrite(In4, HIGH);
+
+
+                 if(X > 10) {
+                    analogWrite(ENA, vel);
+                    analogWrite(ENB, 1024-ster);
+            
+                }else{
+                  analogWrite(ENA, 1024-ster);
+                  analogWrite(ENB, vel);
+ 
+            
+          }
+      }
+  
+  
+  
+}
+
+

@@ -91,50 +91,15 @@ void loop() {
         radio.read( &myData, sizeof(myData) );             // Get the payload
       }
 
-      Y = myData.asseY;
-      X = myData.asseX;
+      Y = (int)myData.asseY;
+      X = (int)myData.asseX;
 
       Serial.print(" vel e ster sono: ");
       Serial.print(Y);
       Serial.print(",");
       Serial.println(X);
 
-      vel = abs(Y);
-      ster = abs(X);
-      
-      if (vel > 10 && ster <10 ) {
-        
-        avanti(vel);
-        Serial.print("avanti ");
-        Serial.println(vel);
-
-      }else if (vel < -10 abs(ster) <=10){
-
-        indietro(abs(vel));
-        Serial.print("indietro ");
-        Serial.println(vel);
-
-      
-      }else {
-        fermo();
-      }
-
-
-      if (ster > 10 ) {
-        
-        destra(abs(vel));
-        Serial.print("destra ");
-        Serial.println(vel);
-      
-      }else if (vel < -10){
-        Serial.print("sinistra ");
-        Serial.println(vel);
-
-        sinistra(abs(vel));
-      }
-      
-
-     
+          
       radio.stopListening();                               // First, stop listening so we can talk  
       char color = colore();                               // ricavo il colore ottenuto
       radio.write( &color, sizeof(color) );              // Send the final one back.      
@@ -143,17 +108,69 @@ void loop() {
       switch (color){
         case 'R':
           Serial.println("Rosso");
+          vel=1;
           break;
         case 'G':
           Serial.println("Verde");
           break;
         case 'B':
           Serial.println("Blue");
+          vel = vel/2;
           break;
         case 'I':
           Serial.println("Indefinito");
           break;          
       }
+
+      vel = map (abs(Y), 0, 512, 0, 1024);
+      ster = map (abs(X), 0, 512, 0, 1024);
+
+      //i casi in cui il joypad si muove solo in avanti, indietro o è fermo
+      
+      if (ster<20) {
+          if(Y > 10) {
+        
+            avanti(vel);
+            Serial.print("avanti ");
+            Serial.println(vel);
+
+          }else if (Y < -10){
+
+            indietro(vel);
+            Serial.print("indietro ");
+            Serial.println(vel);
+      
+          }else {
+            fermo();
+          }
+      }
+
+// i casi in cui il joypad si muove solo verso destra o sinistra
+    
+      if (vel<20) {
+          if(X > 10) {
+        
+              destra(ster);
+              Serial.print("destra ");
+              Serial.println(vel);
+
+          }else if (X < -10){
+
+              sinistra(vel);
+              Serial.print("indietro ");
+              Serial.println(vel);
+      
+          }else {
+          fermo();
+          }
+      }
+
+// i casi in cui le direzioni sono miste
+
+    if (ster>20 && vel > 20) {
+        
+    sterza(Y, vel, X, ster);
+ }
 
 
  }
