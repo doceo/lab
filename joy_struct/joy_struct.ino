@@ -20,8 +20,6 @@ RF24 radio(7,8);
 /**********************************************************/
 
 
-// Used to control whether this node is sending or receiving
-bool role = 1;
 
 /**
 * Create a data structure for transmitting and receiving data
@@ -79,7 +77,7 @@ void loop() {
   
   
 /****************** Ping Out Role ***************************/  
-if (role == 1)  {
+
     
     radio.stopListening();                                    // First, stop listening so we can talk.
     
@@ -122,10 +120,13 @@ if (role == 1)  {
         switch (color){
           case 'R':
             Serial.println("Rosso");
+            break;
           case 'G':
             Serial.println("Verde");
+            break;
           case 'B':
             Serial.println("Blue");
+            break;        
         }
         Serial.println(color);          
         // Spew it
@@ -141,7 +142,7 @@ if (role == 1)  {
 
     // Try again 1s later
 //    delay(1000);
-  }
+
 
 
 } // Loop
