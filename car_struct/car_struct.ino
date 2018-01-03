@@ -156,9 +156,9 @@ void loop() {
 
           }else if (X < -10){
 
-              sinistra(vel);
-              Serial.print("indietro ");
-              Serial.println(vel);
+              sinistra(ster);
+              Serial.print("sinistra ");
+              Serial.println(ster);
       
           }else {
           fermo();
@@ -175,7 +175,7 @@ void loop() {
 
  }
 
-
+//delay(500);
 
 
 } // Loop

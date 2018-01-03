@@ -130,7 +130,7 @@ void sinistra(int potenza) {
 }
 
 
-void sterza(int &Y, int &vel, int &X, int &ster){
+void sterza(int Y, int vel, int X, int ster){
 
    //Definisco il senso di marcia del motore
   /*
@@ -144,17 +144,17 @@ void sterza(int &Y, int &vel, int &X, int &ster){
   
         if(Y > 10) {
         
-        digitalWrite(In1, LOW);
-        digitalWrite(In2, HIGH);
-        digitalWrite(In3, LOW);
-        digitalWrite(In4, HIGH);
+            digitalWrite(In1, LOW);
+            digitalWrite(In2, HIGH);
+            digitalWrite(In3, LOW);
+            digitalWrite(In4, HIGH);
 
             if(X > 10) {
                 analogWrite(ENA, vel);
-                analogWrite(ENB, 1024-ster);
+                analogWrite(ENB, ster);
             
             }else{
-                analogWrite(ENA, 1024-ster);
+                analogWrite(ENA, ster);
                 analogWrite(ENB, vel);
             
              }
@@ -167,12 +167,12 @@ void sterza(int &Y, int &vel, int &X, int &ster){
             digitalWrite(In4, HIGH);
 
 
-                 if(X > 10) {
+                if(X > 10) {
                     analogWrite(ENA, vel);
-                    analogWrite(ENB, 1024-ster);
+                    analogWrite(ENB, ster);
             
                 }else{
-                  analogWrite(ENA, 1024-ster);
+                  analogWrite(ENA, ster);
                   analogWrite(ENB, vel);
  
             
