@@ -28,10 +28,6 @@
 
 // Update these with values suitable for your network.
 
-const char* ssid = "FASTWEB-1-ADD163";
-const char* password = "0418EE41E8";
-const char* mqtt_server = "192.168.1.68";
-
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
