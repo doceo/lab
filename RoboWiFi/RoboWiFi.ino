@@ -1,3 +1,7 @@
+// il progetto RoboWiFi è stato pensato e realizzato a scopo didattico dal 
+// prof. Fabrizio Tamigi. 
+// Le successive modifiche, sempre a scopo didattico, dal prof Diomede Mazzone
+
 #include "ESP8266.h"
 #include "Webpage.h"
 
