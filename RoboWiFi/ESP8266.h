@@ -177,7 +177,7 @@ public:
         buffer += (char)pgm_read_byte(str++);
       if (!send(link, buffer))
         return false;
-      delay(PKT_DELAY);
+//      delay(PKT_DELAY);
     }
     return true;
   }
