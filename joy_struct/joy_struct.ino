@@ -27,8 +27,8 @@ RF24 radio(7,8);
 * See http://www.cplusplus.com/doc/tutorial/structures/
 */
 
-int X = A1;    // select the input pin for the potentiometer
-int Y = A2;      // select the pin for the LED
+int Y = A1;    // select the input pin for the potentiometer
+int X = A0;      // select the pin for the LED
 int tap = 3;  // variable to store the value coming from the sensor
 
 char color;
@@ -83,15 +83,29 @@ void loop() {
     
     
     Serial.println(F("Now sending"));
+    
+    int vel= map(analogRead(X), 0, 880, -20, 20);
+    if(abs(vel)<5) vel = 0;
+    
+    int ster= map(analogRead(Y), 0, 880, -20, 20);
+    if(abs(ster)<5) ster = 0;
+ 
 
-    myData.asseX = map(analogRead(X), 0, 1024, -512, 512); 
-    myData.asseY= map(analogRead(Y), 0, 1024, -512, 512);
+    myData.asseX = vel ; 
+    myData.asseY= ster;
  //   myData.clic= digitalRead(tap);
     myData.temp = micros();
 
     Serial.println(myData.asseX);
     Serial.println(myData.asseY);
     Serial.println(myData.temp);
+
+    //uso il monitor seriale per tarare gli ingressi
+    Serial.println();
+    Serial.print("X= ");
+    Serial.println(analogRead(X));
+    Serial.print("Y= ");
+    Serial.println(analogRead(Y));
      
      if (!radio.write( &myData, sizeof(myData) )){
        Serial.println(F("failed"));
@@ -109,39 +123,10 @@ void loop() {
       }      
     }
         
-    if ( timeout ){                                             // Describe the results
-        Serial.println(F("Failed, response timed out."));
-    }else{
-                                                                // Grab the response, compare, and send to debugging spew
-        radio.read( &color, sizeof(color) );
-        unsigned long time = micros();
-
-        Serial.print("identificato il colore ");
-        switch (color){
-          case 'R':
-            Serial.println("Rosso");
-            break;
-          case 'G':
-            Serial.println("Verde");
-            break;
-          case 'B':
-            Serial.println("Blue");
-            break;        
-        }
-        Serial.println(color);          
-        // Spew it
-        Serial.print(F("Sent "));
-        Serial.print(time);
-        Serial.print(F(", Got response "));
-        Serial.print(myData.temp);
-        Serial.print(F(", Round-trip delay "));
-        Serial.print(time-myData.temp);
-        Serial.print(F(" microseconds Value "));
-        Serial.println(myData.temp);
-    }
+ 
 
     // Try again 1s later
-//    delay(1000);
+    //delay(1000);
 
 
 
