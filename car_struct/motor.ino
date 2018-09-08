@@ -29,6 +29,7 @@ void avviamotore() {
   pinMode(In4, OUTPUT); //output perche' definisce lo stato logico del pin IN4 del modulo L298N
   pinMode(ENB, OUTPUT);  //output perche' definisce il valore PWM del pin EN2 del modulo L298N
 
+  fermo();
  
 }
  
@@ -76,6 +77,8 @@ void indietro(int potenza) {
   //invio costantemente il valore PWM della potenza in modo da far variare la velocita' del motore in base alla posizione del potenziometro
   analogWrite(ENA, potenza);
   analogWrite(ENB, potenza);
+  Serial.print("POTENZA: ");
+  Serial.println(potenza);
 }
 
 
@@ -130,57 +133,14 @@ void sinistra(int potenza) {
 }
 
 
-void sterza(int Y, int vel, int X, int ster){
-
-   //Definisco il senso di marcia del motore
-  /*
-    mA |   mB  | Evento
-  -----|-------|----------------------
-  LOW  | LOW   | fermo
-  LOW  | HIGH  | Movimento in un senso
-  HIGH | LOW   | Movimento senso opposto
-  HIGH | HIGH  | Fermo
-  */
-  
-        if(Y > 10) {
-        
-            digitalWrite(In1, LOW);
-            digitalWrite(In2, HIGH);
-            digitalWrite(In3, LOW);
-            digitalWrite(In4, HIGH);
-
-            if(X > 10) {
-                analogWrite(ENA, vel);
-                analogWrite(ENB, ster);
-            
-            }else{
-                analogWrite(ENA, ster);
-                analogWrite(ENB, vel);
-            
-             }
-        
-        }else{
-
-            digitalWrite(In1, LOW);
-            digitalWrite(In2, HIGH);
-            digitalWrite(In3, LOW);
-            digitalWrite(In4, HIGH);
-
-
-                if(X > 10) {
-                    analogWrite(ENA, vel);
-                    analogWrite(ENB, ster);
-            
-                }else{
-                  analogWrite(ENA, ster);
-                  analogWrite(ENB, vel);
- 
-            
-          }
-      }
-  
-  
-  
+unsigned int distance() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(TRIG, LOW);
+  unsigned long tof = pulseIn(ECHO, HIGH);
+  Serial.println("tof");
+  return (tof%65536)/58.3;
 }
-
 

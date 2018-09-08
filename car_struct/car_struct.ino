@@ -10,6 +10,9 @@
 
 byte addresses[][6] = {"1Node","2Node"};
 
+#define TRIG A7
+#define ECHO A6
+#define MIN_DIST 20
 
 /****************** User Config ***************************/
 /***      Set this radio as radio number 0 or 1         ***/
@@ -34,11 +37,6 @@ struct dataStruct{
 }myData;
 
 
-  int redFrequency = 0;
-  int greenFrequency = 0;
-  int blueFrequency = 0;
-
-
   int vel= 0;
   int ster = 0;
   int X = 1;
@@ -46,7 +44,6 @@ struct dataStruct{
   
 void setup() {
 
-  avviaSensoreColore();
  
   Serial.begin(115200);
  
@@ -70,10 +67,7 @@ void setup() {
   radio.startListening();
   
   avviamotore();
-  fermo();
   
-
-
 }
 
 //configuriamo tutto quello che serve per i motori
@@ -84,6 +78,8 @@ void loop() {
   
 /****************** Ping Out Role ***************************/  
 
+Serial.print("distanza: ");
+Serial.println(distance());
     
     if( radio.available()){
                                                            // Variable for the received timestamp
@@ -94,88 +90,47 @@ void loop() {
       Y = (int)myData.asseY;
       X = (int)myData.asseX;
 
-      Serial.print(" vel e ster sono: ");
+      Serial.print(" vel e ster ricevuti sono: ");
       Serial.print(Y);
       Serial.print(",");
       Serial.println(X);
 
           
-      radio.stopListening();                               // First, stop listening so we can talk  
-      char color = colore();                               // ricavo il colore ottenuto
-      radio.write( &color, sizeof(color) );              // Send the final one back.      
-      radio.startListening();                              // Now, resume listening so we catch the next packets.     
-      Serial.print(F("Invia il colore "));
-      switch (color){
-        case 'R':
-          Serial.println("Rosso");
-          vel=1;
-          break;
-        case 'G':
-          Serial.println("Verde");
-          break;
-        case 'B':
-          Serial.println("Blue");
-          vel = vel/2;
-          break;
-        case 'I':
-          Serial.println("Indefinito");
-          break;          
-      }
+ 
+      vel = map (Y, -20, 20, -512, 512);
+      ster = map (X, -20, 20, -512, 512);
 
-      vel = map (abs(Y), 0, 512, 0, 1024);
-      ster = map (abs(X), 0, 512, 0, 1024);
+      Serial.print(" vel e ster mappati sono: ");
+      Serial.print(vel);
+      Serial.print(",");
+      Serial.println(ster);
 
       //i casi in cui il joypad si muove solo in avanti, indietro o è fermo
-      
-      if (ster<20) {
-          if(Y > 10) {
-        
-            avanti(vel);
-            Serial.print("avanti ");
-            Serial.println(vel);
 
-          }else if (Y < -10){
 
-            indietro(vel);
-            Serial.print("indietro ");
-            Serial.println(vel);
-      
-          }else {
-            fermo();
-          }
-      }
-
-// i casi in cui il joypad si muove solo verso destra o sinistra
+if (vel > 0 && distance() < MIN_DIST) {
+    avanti(vel);
+    Serial.println("avanti");
     
-      if (vel<20) {
-          if(X > 10) {
-        
-              destra(ster);
-              Serial.print("destra ");
-              Serial.println(vel);
+}else if(vel<0){
+  Serial.println("indietro");
+  indietro(abs(vel));
+  }else{
+  fermo();
+}
 
-          }else if (X < -10){
+if (ster>0){
+  destra(ster);
+  Serial.println("destra");
 
-              sinistra(ster);
-              Serial.print("sinistra ");
-              Serial.println(ster);
-      
-          }else {
-          fermo();
-          }
-      }
-
-// i casi in cui le direzioni sono miste
-
-    if (ster>20 && vel > 20) {
-        
-    sterza(Y, vel, X, ster);
- }
-
+  
+ }else if(ster<0){
+  sinistra(abs(ster));
+  Serial.println("sinistra");
 
  }
 
 //delay(500);
-
+    }
 
 } // Loop
