@@ -10,10 +10,12 @@
 
 byte addresses[][6] = {"1Node","2Node"};
 
-#define TRIG A7
-#define ECHO A6
-#define MIN_DIST 20
 
+#define MIN_DIST 20
+int cmconv = 59; 
+
+#define TRIG A5
+#define ECHO A4
 /****************** User Config ***************************/
 /***      Set this radio as radio number 0 or 1         ***/
 bool radioNumber = 0;
@@ -44,11 +46,14 @@ struct dataStruct{
   
 void setup() {
 
+    pinMode(TRIG, OUTPUT);
+    pinMode(ECHO, INPUT);
+
  
-  Serial.begin(115200);
+    Serial.begin(115200);
  
   
-  radio.begin();
+    radio.begin();
 
   // Set the PA Level low to prevent power supply related issues since this is a
  // getting_started sketch, and the likelihood of close proximity of the devices. RF24_PA_MAX is default.
@@ -79,7 +84,7 @@ void loop() {
 /****************** Ping Out Role ***************************/  
 
 Serial.print("distanza: ");
-Serial.println(distance());
+Serial.println(dist());
     
     if( radio.available()){
                                                            // Variable for the received timestamp
@@ -107,8 +112,8 @@ Serial.println(distance());
 
       //i casi in cui il joypad si muove solo in avanti, indietro o è fermo
 
-
-if (vel > 0 && distance() < MIN_DIST) {
+//
+if (vel > 0 && dist() < MIN_DIST ) {
     avanti(vel);
     Serial.println("avanti");
     
