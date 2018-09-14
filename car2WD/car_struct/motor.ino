@@ -54,6 +54,12 @@ void avanti(int potenza) {
   //invio costantemente il valore PWM della potenza in modo da far variare la velocita' del motore in base alla posizione del potenziometro
   analogWrite(ENA, potenza);
   analogWrite(ENB, potenza);
+
+  if (ster>0){
+    analogWrite(ENB, potenza/2);
+  }else if(ster<0){
+    analogWrite(ENA, potenza/2);
+  }
 }
 
 
