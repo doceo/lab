@@ -113,7 +113,7 @@ Serial.println(dist());
       //i casi in cui il joypad si muove solo in avanti, indietro o è fermo
 
 //
-if (vel > 0 && dist() < MIN_DIST ) {
+if (vel > 0 && dist() > MIN_DIST ) {
     avanti(vel);
     Serial.println("avanti");
     
@@ -124,12 +124,12 @@ if (vel > 0 && dist() < MIN_DIST ) {
   fermo();
 }
 
-if (ster>0){
+if (vel=0 && ster>0){
   destra(ster);
   Serial.println("destra");
 
   
- }else if(ster<0){
+ }else if(vel=0 && ster<0){
   sinistra(abs(ster));
   Serial.println("sinistra");
 

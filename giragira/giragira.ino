@@ -1,41 +1,73 @@
-int sensorPin = A0;
-int ledPin = 13;
-int sensorValue = 0;
+/***********************************************
+IMPORTANT: The APDS-9960 can only accept 3.3V!
+ 
+ Arduino Pin  APDS-9960 Board  Function
+ 
+ 
+ 3.3V         VCC              Power
+ GND          GND              Ground
+ A4           SDA              I2C Data
+ A5           SCL              I2C Clock
+ 2            INT              Interrupt
 
-int iniziaGirare;
+************************************************/
+
+#include "Adafruit_APDS9960.h"
+Adafruit_APDS9960 apds;
+
+int rumorPin = A0;
+int ledPin = 13;
+int rumorValue = 0;
+
+/********************************
+ * variabili legate al movimento
+ * il valore è legato al tempo di 
+ * rotazione del robottino
+********************************/
+
 int tempoGiro = 4000;
+int mezzoGiro = 2000;
+int giroLato = 1000;
+
+/*istruzioni legate al sensore di distanza*/
+
+#define MIN_DIST 20
+int cmconv = 59; 
+
+#define TRIG A5
+#define ECHO A4
 
  
 void setup() {
   // put your setup code here, to run once:
   pinMode (ledPin, OUTPUT);
-  Serial.begin(9600);
 
+//sensore distanza
+   pinMode(TRIG, OUTPUT);
+   pinMode(ECHO, INPUT);
+
+  
+  Serial.begin(9600);
+  if(!apds.begin()){
+    Serial.println("failed to initialize device! Please check your wiring.");
+  }
+  else Serial.println("Device initialized!");
+
+  //gesture mode will be entered once proximity mode senses something close
+  apds.enableProximity(true);
+  apds.enableGesture(true);
 }
 
+
 void loop() {
-  int rnd =random (0,100);
-  bool giro= rnd % 2;
-//  Serial.println(giro);
- 
- 
   
-  sensorValue = analogRead(sensorPin);
+sentoRumore();
 
-   if (sensorValue>100){
-          Serial.println (sensorValue, DEC);
-//        if(micros()-iniziaGirare > tempoGiro){
-//        Serial.println("fermo");
-//        fermo();
-//        }else if{
-    
-      iniziaGirare=micros();
-      if (giro) destra();
-      else sinistra();
+/************************************************************
+* deve girare a destra o sinistra, andare avanti fino 
+* all'ostacolo e poi tornare indietro
+************************************************************/
 
-      delay(2000);
-
-  }
 
 fermo();
 }

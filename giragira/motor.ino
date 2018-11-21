@@ -4,7 +4,7 @@
 
 
 //definizione dei pin
-static int In1 = 2; //pin digitale per determinare gli stati logici da inviare al modulo
+static int In1 = 7; //pin digitale per determinare gli stati logici da inviare al modulo
 static int In2 = 3; //pin digitale per determinare gli stati logici da inviare al modulo
 
 static int In3 = 4; //pin digitale per determinare gli stati logici da inviare al modulo
@@ -53,23 +53,26 @@ void fermo() {
   digitalWrite(In4, LOW);
 }
 
-void destra() {
-
-
+void destra(int tempo) {
   
   digitalWrite(In1, LOW);
   digitalWrite(In2, HIGH);
   digitalWrite(In3, HIGH);
   digitalWrite(In4, LOW);
+  
+  delay(tempo);
+  fermo();
+  
 }
 
-void sinistra() {
+void sinistra(int tempo) {
   
   digitalWrite(In1, HIGH);
   digitalWrite(In2, LOW);
   digitalWrite(In3, LOW);
   digitalWrite(In4, HIGH);
   
+  delay(tempo);
+  fermo();
+  
 }
-
-
