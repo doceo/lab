@@ -3,19 +3,19 @@
 
 
 #define MIN_DIST 20
-int cmconv = 59; 
-
-#define TRIG A5
+#define TRIGGER A5
 #define ECHO A4
 
+int cmconv = 59; 
+int count = 0;
   
 void setup() {
 
-    pinMode(TRIG, OUTPUT);
+    pinMode(TRIGGER, OUTPUT);
     pinMode(ECHO, INPUT);
 
     Serial.begin(115200);  
-    radio.begin();
+//    radio.begin();
 
   
 }
@@ -26,27 +26,8 @@ void setup() {
 void loop() {
   
   
-/****************** Ping Out Role ***************************/  
-
-Serial.print("distanza: ");
-Serial.println(dist());
-    
-    if( radio.available()){
-                                                
-      while (radio.available()) {                      
-        radio.read( &myData, sizeof(myData) );            
-      }
-
-      Y = (int)myData.asseY;
-      X = (int)myData.asseX;
-
-      Serial.print(" vel e ster ricevuti sono: ");
-      Serial.print(Y);
-      Serial.print(",");
-      Serial.println(X);
-
-
-//delay(500);
-    }
+dist();  
+count ++;
+delay(50);
 
 } // Loop
