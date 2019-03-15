@@ -28,6 +28,6 @@ void loop() {
   
 dist();  
 count ++;
-delay(50);
+delay(30);
 
 } // Loop
