@@ -1,38 +1,37 @@
 
 
   
-  int dist(){
+int dist(){
 
 
-tempo1 = 0;
-tempo2 = 0;
-tempo3 = 0;
-tempo4 = 0;
-
-for (int i=0; i<5; i++){
-
-  digitalWrite (sonarTrigger[i], HIGH);                                        // attraverso il trigger inizia a emettere onde
-  delayMicroseconds(10);                                                   // per dieci secondi
-  digitalWrite(sonarTrigger[i],LOW);                                           // e si ferma
-
-  long duration = pulseIn(sonarEcho[i], HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
-
-  double distanza = 0.01715 * duration; 
-
-  if (duration >380000) { 
-          Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
+  for(int i=0; i<5; i++){
+    tempi[i]=0;
+  }
   
-  }else if  (duration == 0) { 
-            duration == 1000;
-         }
-
-  long int rval = microsecondsToCentimeters(duration); 
-  return rval;
-
-  if (rval<5) tempi[i]=millis();
+  for (int i=0; i<5; i++){
   
-}
+    digitalWrite (sonarTrigger[i], HIGH);                                        // attraverso il trigger inizia a emettere onde
+    delayMicroseconds(10);                                                   // per dieci secondi
+    digitalWrite(sonarTrigger[i],LOW);                                           // e si ferma
   
+    long duration = pulseIn(sonarEcho[i], HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
+  
+    double distanza = 0.01715 * duration; 
+  
+    if (duration >380000) { 
+            Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
+    
+    }else if  (duration == 0) { 
+              duration == 1000;
+           }
+  
+    long int rval = microsecondsToCentimeters(duration); 
+    return rval;
+  
+    if (rval<5) tempi[i]=millis();
+  
+  }
+}  
                                   //calcoliamo la distanza
 
 //  long int distanza = 0.036 * duration /2;                                 //calcoliamo la distanza
@@ -56,7 +55,7 @@ for (int i=0; i<5; i++){
  
  
 
-}
+
 
 long microsecondsToCentimeters(long microseconds)
   {
@@ -64,13 +63,17 @@ long microsecondsToCentimeters(long microseconds)
   }
 
 
-double vel(int tratto){
+long vel(int tratto){
 
   if (tratto == 1){
-
-
+      
+      return dist_sens/(tempi[1]-tempi[0]);
     
-  }
+  }else if (tratto==2){
+    
+      return dist_sens/(tempi[3]-tempi[2]);
   
   }
+  
+}
   
