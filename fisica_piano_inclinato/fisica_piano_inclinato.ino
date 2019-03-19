@@ -27,6 +27,7 @@ la distanza tra 1-2 e 3-4 è 10 cm
 int cmconv = 59; 
 int count = 0;
 int dist_sens = 10;
+int dist_disc = 100;
 
 
 
@@ -35,9 +36,7 @@ double v1, v2, acc;
 int sonarTrigger[] = {TRIGGER_1, TRIGGER_2, TRIGGER_3, TRIGGER_4};
 int sonarEcho[] = {ECHO_1, ECHO_2, ECHO_3, ECHO_4};
 
-long tempo1, tempo2, tempo3, tempo4;
-
-long tempi[]{tempo1, tempo2, tempo3, tempo4};
+long tempi[]{0, 0, 0, 0};
 
 void setup() {
 
@@ -65,31 +64,37 @@ void setup() {
 
 
 void loop() {
+
+dist();
+  
 Serial.println();
 Serial.println(count);
 Serial.println();
+
+
 //calcoliamo la velocità nel primo e nel secondo tratto
-v1 = vel(1);
-Serial.print("V tratto 1: ");
-Serial.print(v1);
-Serial.print(tempi[0]);
-Serial.print(" - ");
-Serial.println(tempi[1]);
+//v1 = vel(1);
+//Serial.print("Vel. tratto 1: ");
+//Serial.print(v1);
+//Serial.print(tempi[0]);
+//Serial.print(" - ");
+//Serial.println(tempi[1]);
 
+//
+//v2 = vel(2);
+//Serial.print("Vel. tratto 2: ");
+//Serial.print(v2);
+//Serial.print(tempi[2]);
+//Serial.print(" - ");
+//Serial.println(tempi[3]);
+//
+////calcoliamo l'accellerazione
+//
+//acc = (v1+v2)/(tempi[3]-tempi[0]);
 
-v2 = vel(2);
-Serial.print("V tratto 2: ");
-Serial.print(v2);
-Serial.print(tempi[2]);
-Serial.print(" - ");
-Serial.println(tempi[3]);
-
-//calcoliamo l'accellerazione
-
-acc = (v1+v2)/(tempi[3]-tempi[0]);
-Serial.print("accellerazione: ");
-Serial.print(acc);
+//Serial.print("accellerazione: ");
+//Serial.print(acc);
 count ++;
-delay(30);
+delay(200);
 
 } // Loop

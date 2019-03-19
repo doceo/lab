@@ -1,12 +1,12 @@
 
 
   
-int dist(){
+void dist(){
 
 
-  for(int i=0; i<5; i++){
-    tempi[i]=0;
-  }
+//  for(int i=0; i<5; i++){
+//    tempi[i]=0;
+//  }
   
   for (int i=0; i<5; i++){
   
@@ -15,7 +15,11 @@ int dist(){
     digitalWrite(sonarTrigger[i],LOW);                                           // e si ferma
   
     long duration = pulseIn(sonarEcho[i], HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
-  
+
+//    Serial.println();
+//    Serial.println(i);
+//    Serial.println();
+
     double distanza = 0.01715 * duration; 
   
     if (duration >380000) { 
@@ -26,11 +30,17 @@ int dist(){
            }
   
     long int rval = microsecondsToCentimeters(duration); 
-    return rval;
   
     if (rval<5) tempi[i]=millis();
-  
+
+ //   Serial.println(distanza);
   }
+
+  
+for(int i=0; i<5; i++) {
+  Serial.println(tempi[i]);
+  
+}
 }  
                                   //calcoliamo la distanza
 
@@ -71,7 +81,7 @@ long vel(int tratto){
     
   }else if (tratto==2){
     
-      return dist_sens/(tempi[3]-tempi[2]);
+      return dist_disc/(tempi[3]-tempi[2]);
   
   }
   
