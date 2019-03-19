@@ -1,8 +1,8 @@
 
 /**********************************************************
 
-la posizione dei sensoti è presa dal più alto al più basso
-posizione 1 2 3 4
+la posizione dei sensori è presa dal più alto al più basso
+posizione 1 2 
 la distanza tra 1-2 e 3-4 è 10 cm
 
 
@@ -14,14 +14,8 @@ la distanza tra 1-2 e 3-4 è 10 cm
 #define TRIGGER_1 11
 #define ECHO_1 A0
 
-#define TRIGGER_2 9
-#define ECHO_2 A1
-
-#define TRIGGER_3 7
-#define ECHO_3 A2
-
-#define TRIGGER_4 4
-#define ECHO_4 A3
+#define TRIGGER_2 7
+#define ECHO_2 A2
 
 
 int cmconv = 59; 
@@ -29,14 +23,19 @@ int count = 0;
 int dist_sens = 10;
 int dist_disc = 100;
 
+bool pos1 = 0;
+bool pos2 = 0;
 
+double vel;
 
-double v1, v2, acc;
+int sonarTrigger[] = {TRIGGER_1, TRIGGER_2};
+int sonarEcho[] = {ECHO_1, ECHO_2};
 
-int sonarTrigger[] = {TRIGGER_1, TRIGGER_2, TRIGGER_3, TRIGGER_4};
-int sonarEcho[] = {ECHO_1, ECHO_2, ECHO_3, ECHO_4};
+long duration, temp1, temp2;
 
-long tempi[]{0, 0, 0, 0};
+long int rval;
+
+double distanza;
 
 void setup() {
 
@@ -45,13 +44,6 @@ void setup() {
 
     pinMode(TRIGGER_2, OUTPUT);
     pinMode(ECHO_2, INPUT);
-
-    pinMode(TRIGGER_3, OUTPUT);
-    pinMode(ECHO_3, INPUT);
-
-    pinMode(TRIGGER_4, OUTPUT);
-    pinMode(ECHO_4, INPUT);
-
     
     Serial.begin(115200);  
 //    radio.begin();
@@ -65,36 +57,97 @@ void setup() {
 
 void loop() {
 
-dist();
+//dist();
   
-Serial.println();
-Serial.println(count);
-Serial.println();
 
 
-//calcoliamo la velocità nel primo e nel secondo tratto
-//v1 = vel(1);
-//Serial.print("Vel. tratto 1: ");
-//Serial.print(v1);
-//Serial.print(tempi[0]);
-//Serial.print(" - ");
-//Serial.println(tempi[1]);
+/**********************************************
+ * RILEVAZIONE PRIMO SENSORRE
+ * 
+ **********************************************/
 
-//
-//v2 = vel(2);
-//Serial.print("Vel. tratto 2: ");
-//Serial.print(v2);
-//Serial.print(tempi[2]);
-//Serial.print(" - ");
-//Serial.println(tempi[3]);
-//
-////calcoliamo l'accellerazione
-//
-//acc = (v1+v2)/(tempi[3]-tempi[0]);
+    digitalWrite (TRIGGER_1, HIGH);                                        // attraverso il trigger inizia a emettere onde
+    delayMicroseconds(10);                                                   // per dieci secondi
+    digitalWrite(TRIGGER_1,LOW);                                           // e si ferma
+  
+    duration = pulseIn(ECHO_1, HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
 
-//Serial.print("accellerazione: ");
-//Serial.print(acc);
-count ++;
+//    Serial.println();
+//    Serial.println(i);
+//    Serial.println();
+
+    distanza = 0.01715 * duration; 
+  
+    if (duration >380000) { 
+            Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
+    
+    }else if  (duration == 0) { 
+              duration == 1000;
+           }
+  
+    rval = microsecondsToCentimeters(duration); 
+  
+    if (rval<5){
+
+      Serial.println();
+      Serial.print(count);
+      Serial.print(" - tempo1 ");
+      temp1=millis();
+      Serial.println(temp1);
+
+      pos1=1;
+      
+    }
+
+
+/**********************************************
+ * RILEVAZIONE SECONDO SENSORRE
+ * 
+ **********************************************/
+
+    digitalWrite (TRIGGER_2, HIGH);                                        // attraverso il trigger inizia a emettere onde
+    delayMicroseconds(10);                                                   // per dieci secondi
+    digitalWrite(TRIGGER_2,LOW);                                           // e si ferma
+  
+    duration = pulseIn(ECHO_2, HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
+
+//    Serial.println();
+//    Serial.println(i);
+//    Serial.println();
+
+    distanza = 0.01715 * duration; 
+  
+    if (duration >380000) { 
+            Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
+    
+    }else if  (duration == 0) { 
+              duration == 1000;
+           }
+  
+    rval = microsecondsToCentimeters(duration); 
+  
+    if (rval<5){
+      Serial.println();
+      Serial.print(count);
+      Serial.print(" - tempo2 ");
+      temp2=millis();
+      Serial.println(temp2);
+
+      pos2=1;
+ 
+    }
+
+if (pos1==1&&pos2==1){
+  vel = 10/(temp2-temp1);
+  Serial.println("vel= ");
+  Serial.println(vel);
+  pos1=0;
+  pos2=0;
+}
+
+
+count++;
+
 delay(200);
 
 } // Loop
