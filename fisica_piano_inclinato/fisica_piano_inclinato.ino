@@ -1,153 +1,74 @@
+/*
 
-/**********************************************************
-
-la posizione dei sensori è presa dal più alto al più basso
-posizione 1 2 
-la distanza tra 1-2 e 3-4 è 10 cm
-
-
-***********************************************************/
+  i sensori sono distanti 20cm
+ 
+*/
 
 
-#define MIN_DIST 20
+#define POSIZIONE_1 10
+#define POSIZIONE_2 8
 
-#define TRIGGER_1 11
-#define ECHO_1 A0
+float distanza = 0.2; //in metri
+float vel;
 
-#define TRIGGER_2 7
-#define ECHO_2 A2
-
-
-int cmconv = 59; 
 int count = 0;
-int dist_sens = 10;
-int dist_disc = 100;
 
-bool pos1 = 0;
-bool pos2 = 0;
+int posUno, posDue;
+long int temp1, temp2;
+long int deltaT;
 
-double vel;
-
-int sonarTrigger[] = {TRIGGER_1, TRIGGER_2};
-int sonarEcho[] = {ECHO_1, ECHO_2};
-
-long duration, temp1, temp2;
-
-long int rval;
-
-double distanza;
+bool pasUno, pasDue;
 
 void setup() {
+  //start serial connection
+  Serial.begin(9600);
+  //configure pin 2 as an input and enable the internal pull-up resistor
+  pinMode(POSIZIONE_1, INPUT);
+  pinMode(POSIZIONE_2, INPUT);
 
-    pinMode(TRIGGER_1, OUTPUT);
-    pinMode(ECHO_1, INPUT);
-
-    pinMode(TRIGGER_2, OUTPUT);
-    pinMode(ECHO_2, INPUT);
-    
-    Serial.begin(115200);  
-//    radio.begin();
-
-
-  
 }
-
-//configuriamo tutto quello che serve per i motori
-
 
 void loop() {
 
-//dist();
-  
+posUno = digitalRead(POSIZIONE_1);
+posDue = digitalRead(POSIZIONE_2);
 
+  if(!posUno && !pasUno){
 
-/**********************************************
- * RILEVAZIONE PRIMO SENSORRE
- * 
- **********************************************/
-
-    digitalWrite (TRIGGER_1, HIGH);                                        // attraverso il trigger inizia a emettere onde
-    delayMicroseconds(10);                                                   // per dieci secondi
-    digitalWrite(TRIGGER_1,LOW);                                           // e si ferma
-  
-    duration = pulseIn(ECHO_1, HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
-
-//    Serial.println();
-//    Serial.println(i);
-//    Serial.println();
-
-    distanza = 0.01715 * duration; 
-  
-    if (duration >380000) { 
-            Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
-    
-    }else if  (duration == 0) { 
-              duration == 1000;
-           }
-  
-    rval = microsecondsToCentimeters(duration); 
-  
-    if (rval<5){
-
-      Serial.println();
-      Serial.print(count);
-      Serial.print(" - tempo1 ");
-      temp1=millis();
-      Serial.println(temp1);
-
-      pos1=1;
-      
-    }
-
-
-/**********************************************
- * RILEVAZIONE SECONDO SENSORRE
- * 
- **********************************************/
-
-    digitalWrite (TRIGGER_2, HIGH);                                        // attraverso il trigger inizia a emettere onde
-    delayMicroseconds(10);                                                   // per dieci secondi
-    digitalWrite(TRIGGER_2,LOW);                                           // e si ferma
-  
-    duration = pulseIn(ECHO_2, HIGH);                                  //attraverso la funzione pulseIn acquisiamo il segnale tramite il sensore
-
-//    Serial.println();
-//    Serial.println(i);
-//    Serial.println();
-
-    distanza = 0.01715 * duration; 
-  
-    if (duration >380000) { 
-            Serial.println("fuori portata");                                 //segnaliamo se la distanza è fuori dalla portata dello strumento
-    
-    }else if  (duration == 0) { 
-              duration == 1000;
-           }
-  
-    rval = microsecondsToCentimeters(duration); 
-  
-    if (rval<5){
-      Serial.println();
-      Serial.print(count);
-      Serial.print(" - tempo2 ");
-      temp2=millis();
-      Serial.println(temp2);
-
-      pos2=1;
+    Serial.print("\n\n\n");
+    Serial.print(count);
+    Serial.print(" sensore 1: ");
+    temp1 = millis();
+    Serial.println(temp1);
+    pasUno = true;
+  }
  
-    }
+  if(!posDue && !pasDue){
+    Serial.print(count);
+    Serial.print(" sensore 2: ");
+    temp2 = millis();
+    Serial.println(temp2);
+    pasDue = true;
+    delay(100);
+  }
 
-if (pos1==1&&pos2==1){
-  vel = 10/(temp2-temp1);
-  Serial.println("vel= ");
-  Serial.println(vel);
-  pos1=0;
-  pos2=0;
+if (pasUno && pasDue) {
+  
+  deltaT = temp2-temp1;
+  
+  Serial.println();
+  Serial.print("Tempo impiegato in millisecondi: ");
+  Serial.println(deltaT);
+
+  pasUno = pasDue = false;
+  vel = (distanza/deltaT)*1000;
+  Serial.print("velocità: ");
+  Serial.print(vel);
+  Serial.println(" m/s");
 }
 
 
+//delay(200);
 count++;
-
-delay(200);
-
-} // Loop
+ 
+}
