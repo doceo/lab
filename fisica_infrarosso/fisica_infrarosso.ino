@@ -13,11 +13,11 @@ float vel;
 
 int count = 0;
 
-int pos1, pos2;
+int posUno, posDue;
 long int temp1, temp2;
-double deltaT;
+long int deltaT;
 
-int passato = 0;
+bool pasUno, pasDue;
 
 void setup() {
   //start serial connection
@@ -30,37 +30,45 @@ void setup() {
 
 void loop() {
 
+posUno = digitalRead(POSIZIONE_1);
+posDue = digitalRead(POSIZIONE_2);
 
-pos1 = digitalRead(POSIZIONE_1);
-pos2 = digitalRead(POSIZIONE_2);
+  if(!posUno && !pasUno){
 
-  if(!pos1){
+    Serial.print("\n\n\n");
     Serial.print(count);
     Serial.print(" sensore 1: ");
     temp1 = millis();
     Serial.println(temp1);
-    passato++;
+    pasUno = true;
   }
  
-  if(!pos2){
-    Serial.println(count);
+  if(!posDue && !pasDue){
+    Serial.print(count);
     Serial.print(" sensore 2: ");
     temp2 = millis();
     Serial.println(temp2);
-    passato++;
+    pasDue = true;
+    delay(100);
   }
 
-deltaT = (temp2-temp1)/1000;
-vel = distanza/deltaT;
+if (pasUno && pasDue) {
+  
+  deltaT = temp2-temp1;
+  
+  Serial.println();
+  Serial.print("Tempo impiegato in millisecondi: ");
+  Serial.println(deltaT);
 
-if (passato == 2) {
-  Serial.print("vel= ");
-  Serial.println(vel);
-  passato = 0;
+  pasUno = pasDue = false;
+  vel = (distanza/deltaT)*1000;
+  Serial.print("velocità: ");
+  Serial.print(vel);
+  Serial.println(" m/s");
 }
 
 
-delay(200);
+//delay(200);
 count++;
  
 }
