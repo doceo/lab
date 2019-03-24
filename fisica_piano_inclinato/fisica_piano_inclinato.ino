@@ -6,20 +6,22 @@
 
 
 #define POSIZIONE_1 10
-#define POSIZIONE_2 8
-#define POSIZIONE_1 6
-#define POSIZIONE_2 4
+#define POSIZIONE_2 13
+#define POSIZIONE_3 3
+#define POSIZIONE_4 5
 
-float distanza = 0.2; //in metri
+float sUno = 0.2; //in metri
+float sDue = 0.52;
+float sTre = 0.2;
 float vel;
 
-int count = 0;
+int count = 1;
 
 int posUno, posDue, posTre, posQuattro;
 long int temp1, temp2, temp3, temp4;
-long int deltaTUno, deltaTDue;
+long int deltaTUno, deltaTDue, deltaTTre;
 
-bool pasUno, pasDue, pasTre, pasQuattro, pasDeltaT;
+bool pasUno, pasDue, pasTre, pasQuattro;
 
 void setup() {
   //start serial connection
@@ -34,18 +36,12 @@ pasUno = false;
 pasDue = false; 
 pasTre = false;
 pasQuattro = false;
-pasDeltaT = false;
 
 }
 
 void loop() {
 
-posUno = digitalRead(POSIZIONE_1);
-posDue = digitalRead(POSIZIONE_2);
-posTre = digitalRead(POSIZIONE_3);
-posQuattro = digitalRead(POSIZIONE_4);
-
-  if(!posUno && !pasUno){
+  if(!digitalRead(POSIZIONE_1) && !pasUno){
 
     Serial.print("\n\n\n");
     Serial.print(count);
@@ -55,74 +51,64 @@ posQuattro = digitalRead(POSIZIONE_4);
     pasUno = true;
   }
  
-  if(!posDue && !pasDue){
+  if(!digitalRead(POSIZIONE_2) && !pasDue){
     Serial.print(count);
     Serial.print(" sensore 2: ");
     temp2 = millis();
     Serial.println(temp2);
     pasDue = true;
-    delay(100);
+
   }
 
-if (pasUno && pasDue) {
-  
-  deltaTUno = temp2-temp1;
-  
-  Serial.println();
-  Serial.print("Tempo impiegato in millisecondi: ");
-  Serial.println(deltaT);
-
-  pasUno = pasDue = false;
-
-  pasDeltaT = true;
-  
-  vel = (distanza/deltaTUno)*1000;
-  Serial.print("velocità: ");
-  Serial.print(vel);
-  Serial.println(" m/s");
-}
-
-posTre = digitalRead(POSIZIONE_3);
-posQuattro = digitalRead(POSIZIONE_4);
-
-  if(!posTre && !pasTre){
-
-    Serial.print("\n\n\n");
+  if(!digitalRead(POSIZIONE_3) && !pasTre){
     Serial.print(count);
     Serial.print(" sensore 3: ");
-    temp1 = millis();
+    temp3 = millis();
     Serial.println(temp3);
     pasTre = true;
   }
- 
-  if(!posQuattro && !pasQuattro && pasDeltaT){
+
+  if(!digitalRead(POSIZIONE_4) && !pasQuattro){
     Serial.print(count);
     Serial.print(" sensore 4: ");
-    temp2 = millis();
-    Serial.println(temp2);
+    temp4 = millis();
+    Serial.println(temp4);
     pasQuattro = true;
-    delay(100);
   }
 
-if (pasUno && pasDue) {
+if (pasUno && pasDue && pasTre && pasQuattro) {
   
-  deltaT = temp2-temp1;
+  deltaTUno = temp2 - temp1;
+  deltaTDue = temp3 - temp2;
+  deltaTTre = temp4 - temp3;
   
   Serial.println();
-  Serial.print("Tempo impiegato in millisecondi: ");
-  Serial.println(deltaT);
+  Serial.print("Lancio numero ");
+  Serial.println(count);
+  Serial.println();
+  
+  Serial.print("Intervalli di tempo rilevati: T1: ");
+  Serial.print(deltaTUno);
+  Serial.print(" percorrendo la distanza di ");
+  Serial.print(sUno);
+  Serial.println(" metri");
+  Serial.print(" T2: ");
+  Serial.println(deltaTDue);
+  Serial.print(" percorrendo la distanza di ");
+  Serial.print(sUno);
+  Serial.println(" metri");
+  Serial.print(" T3: ");
+  Serial.println(deltaTTre);
+  Serial.print(" percorrendo la distanza di ");
+  Serial.print(sUno);
+  Serial.println(" metri");
+    
+  pasUno = pasDue = pasTre = pasQuattro = false;
 
-  pasUno = pasDue = false;
-  vel = (distanza/deltaT)*1000;
-  Serial.print("velocità: ");
-  Serial.print(vel);
-  Serial.println(" m/s");
+  count ++;
 }
 
-
-
-
 //delay(200);
-count++;
+
  
 }
