@@ -4,14 +4,13 @@
  
 */
 
-
-#define POSIZIONE_1 10
-#define POSIZIONE_2 13
-#define POSIZIONE_3 3
-#define POSIZIONE_4 5
+#define POSIZIONE_1 5
+#define POSIZIONE_2 3
+#define POSIZIONE_3 13
+#define POSIZIONE_4 10
 
 float sUno = 0.2; //in metri
-float sDue = 0.52;
+float sDue = 0.2;
 float sTre = 0.2;
 float vel;
 
@@ -24,6 +23,7 @@ long int deltaTUno, deltaTDue, deltaTTre;
 bool pasUno, pasDue, pasTre, pasQuattro;
 
 void setup() {
+  
   //start serial connection
   Serial.begin(9600);
   //configure pin 2 as an input and enable the internal pull-up resistor
@@ -41,42 +41,31 @@ pasQuattro = false;
 
 void loop() {
 
-  if(!digitalRead(POSIZIONE_1)){
+while(digitalRead(POSIZIONE_1)){
+//Serial.println("1");
+}
+temp1 = millis();
 
-//    Serial.print("\n\n\n");
-//    Serial.print(count);
-//    Serial.print(" sensore 1: ");
-    temp1 = millis();
-//    Serial.println(temp1);
-    pasUno = true;
-  }
- 
-  if(!digitalRead(POSIZIONE_2) && pasUno){
-//    Serial.print(count);
-//    Serial.print(" sensore 2: ");
-    temp2 = millis();
-//    Serial.println(temp2);
-    pasDue = true;
+while(digitalRead(POSIZIONE_2)){
+//Serial.println("2");
+}
+temp2 = millis();
 
-  }
+while(digitalRead(POSIZIONE_3)){
+//Serial.println("3");  
+}
 
-  if(!digitalRead(POSIZIONE_3) && pasDue){
-//    Serial.print(count);
-//    Serial.print(" sensore 3: ");
-    temp3 = millis();
-//    Serial.println(temp3);
-    pasTre = true;
-  }
+temp3 = millis();
 
-  if(!digitalRead(POSIZIONE_4) && pasTre){
-//    Serial.print(count);
-//    Serial.print(" sensore 4: ");
-    temp4 = millis();
-//    Serial.println(temp4);
-    pasQuattro = true;
-  }
+while(digitalRead(POSIZIONE_4)){
+//Serial.println("4");  
+}
 
-if (pasQuattro) {
+temp4 = millis();
+//  Serial.println(temp1);
+//  Serial.println(temp2);
+//  Serial.println(temp3);
+//  Serial.println(temp4);
   
   deltaTUno = abs(temp2 - temp1);
   deltaTDue = abs(temp3 - temp2);
@@ -106,7 +95,6 @@ if (pasQuattro) {
   pasUno = pasDue = pasTre = pasQuattro = false;
 
   count ++;
-}
 
 //delay(200);
 
