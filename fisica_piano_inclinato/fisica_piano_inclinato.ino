@@ -41,66 +41,66 @@ pasQuattro = false;
 
 void loop() {
 
-  if(!digitalRead(POSIZIONE_1) && !pasUno){
+  if(!digitalRead(POSIZIONE_1)){
 
-    Serial.print("\n\n\n");
-    Serial.print(count);
-    Serial.print(" sensore 1: ");
+//    Serial.print("\n\n\n");
+//    Serial.print(count);
+//    Serial.print(" sensore 1: ");
     temp1 = millis();
-    Serial.println(temp1);
+//    Serial.println(temp1);
     pasUno = true;
   }
  
-  if(!digitalRead(POSIZIONE_2) && !pasDue){
-    Serial.print(count);
-    Serial.print(" sensore 2: ");
+  if(!digitalRead(POSIZIONE_2) && pasUno){
+//    Serial.print(count);
+//    Serial.print(" sensore 2: ");
     temp2 = millis();
-    Serial.println(temp2);
+//    Serial.println(temp2);
     pasDue = true;
 
   }
 
-  if(!digitalRead(POSIZIONE_3) && !pasTre){
-    Serial.print(count);
-    Serial.print(" sensore 3: ");
+  if(!digitalRead(POSIZIONE_3) && pasDue){
+//    Serial.print(count);
+//    Serial.print(" sensore 3: ");
     temp3 = millis();
-    Serial.println(temp3);
+//    Serial.println(temp3);
     pasTre = true;
   }
 
-  if(!digitalRead(POSIZIONE_4) && !pasQuattro){
-    Serial.print(count);
-    Serial.print(" sensore 4: ");
+  if(!digitalRead(POSIZIONE_4) && pasTre){
+//    Serial.print(count);
+//    Serial.print(" sensore 4: ");
     temp4 = millis();
-    Serial.println(temp4);
+//    Serial.println(temp4);
     pasQuattro = true;
   }
 
-if (pasUno && pasDue && pasTre && pasQuattro) {
+if (pasQuattro) {
   
-  deltaTUno = temp2 - temp1;
-  deltaTDue = temp3 - temp2;
-  deltaTTre = temp4 - temp3;
+  deltaTUno = abs(temp2 - temp1);
+  deltaTDue = abs(temp3 - temp2);
+  deltaTTre = abs(temp4 - temp3);
   
   Serial.println();
   Serial.print("Lancio numero ");
   Serial.println(count);
   Serial.println();
   
-  Serial.print("Intervalli di tempo rilevati: T1: ");
+  Serial.print("Intervalli di tempo rilevati: \n T1: ");
   Serial.print(deltaTUno);
-  Serial.print(" percorrendo la distanza di ");
+  Serial.print("    S1: ");
   Serial.print(sUno);
   Serial.println(" metri");
   Serial.print(" T2: ");
-  Serial.println(deltaTDue);
-  Serial.print(" percorrendo la distanza di ");
-  Serial.print(sUno);
+  Serial.print(deltaTDue);
+  Serial.print("    S2: ");
+  Serial.print(sDue);
   Serial.println(" metri");
   Serial.print(" T3: ");
-  Serial.println(deltaTTre);
-  Serial.print(" percorrendo la distanza di ");
-  Serial.print(sUno);
+  Serial.print(deltaTTre);
+  Serial.print("    S3: ");
+  Serial.print(sTre);
   Serial.println(" metri");
     
   pasUno = pasDue = pasTre = pasQuattro = false;
