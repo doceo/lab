@@ -4,8 +4,8 @@
  
 */
 
-#define POSIZIONE_1 3
-#define POSIZIONE_2 5
+#define POSIZIONE_1 5
+#define POSIZIONE_2 3
 #define POSIZIONE_3 13
 #define POSIZIONE_4 10
 
@@ -41,57 +41,31 @@ pasQuattro = false;
 
 void loop() {
 
-while(!digitalRead(POSIZIONE_1)){
-
+while(digitalRead(POSIZIONE_1)){
+//Serial.println("1");
 }
-
 temp1 = millis();
 
-while(!digitalRead(POSIZIONE_2)){
-  
+while(digitalRead(POSIZIONE_2)){
+//Serial.println("2");
 }
-
 temp2 = millis();
 
-while(!digitalRead(POSIZIONE_3)){
-  
+while(digitalRead(POSIZIONE_3)){
+//Serial.println("3");  
 }
 
 temp3 = millis();
 
-while(!digitalRead(POSIZIONE_4)){
-  
+while(digitalRead(POSIZIONE_4)){
+//Serial.println("4");  
 }
 
 temp4 = millis();
-  
-//  if(!digitalRead(POSIZIONE_1)){
-//
-//    temp1 = millis();
-//
-//    pasUno = true;
-//  }
-// 
-//  if(!digitalRead(POSIZIONE_2) && pasUno){
-//
-//    temp2 = millis();
-//    pasDue = true;
-//
-//  }
-//
-//  if(!digitalRead(POSIZIONE_3) && pasDue){
-//
-//    temp3 = millis();
-//    pasTre = true;
-//  }
-//
-//  if(!digitalRead(POSIZIONE_4) && pasTre){
-//
-//    temp4 = millis();
-//    pasQuattro = true;
-//  }
-//
-//if (pasQuattro) {
+//  Serial.println(temp1);
+//  Serial.println(temp2);
+//  Serial.println(temp3);
+//  Serial.println(temp4);
   
   deltaTUno = abs(temp2 - temp1);
   deltaTDue = abs(temp3 - temp2);
@@ -118,10 +92,9 @@ temp4 = millis();
   Serial.print(sTre);
   Serial.println(" metri");
     
-//  pasUno = pasDue = pasTre = pasQuattro = false;
+  pasUno = pasDue = pasTre = pasQuattro = false;
 
   count ++;
-//}
 
 //delay(200);
 
