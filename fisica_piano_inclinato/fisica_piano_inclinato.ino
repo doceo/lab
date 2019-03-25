@@ -5,13 +5,13 @@
 */
 
 
-#define POSIZIONE_1 10
-#define POSIZIONE_2 13
-#define POSIZIONE_3 3
-#define POSIZIONE_4 5
+#define POSIZIONE_1 3
+#define POSIZIONE_2 5
+#define POSIZIONE_3 13
+#define POSIZIONE_4 10
 
 float sUno = 0.2; //in metri
-float sDue = 0.52;
+float sDue = 0.2;
 float sTre = 0.2;
 float vel;
 
