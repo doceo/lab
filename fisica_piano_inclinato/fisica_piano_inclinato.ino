@@ -4,7 +4,6 @@
  
 */
 
-
 #define POSIZIONE_1 3
 #define POSIZIONE_2 5
 #define POSIZIONE_3 13
@@ -24,6 +23,7 @@ long int deltaTUno, deltaTDue, deltaTTre;
 bool pasUno, pasDue, pasTre, pasQuattro;
 
 void setup() {
+  
   //start serial connection
   Serial.begin(9600);
   //configure pin 2 as an input and enable the internal pull-up resistor
@@ -41,42 +41,57 @@ pasQuattro = false;
 
 void loop() {
 
-  if(!digitalRead(POSIZIONE_1)){
+while(!digitalRead(POSIZIONE_1)){
 
-//    Serial.print("\n\n\n");
-//    Serial.print(count);
-//    Serial.print(" sensore 1: ");
-    temp1 = millis();
-//    Serial.println(temp1);
-    pasUno = true;
-  }
- 
-  if(!digitalRead(POSIZIONE_2) && pasUno){
-//    Serial.print(count);
-//    Serial.print(" sensore 2: ");
-    temp2 = millis();
-//    Serial.println(temp2);
-    pasDue = true;
+}
 
-  }
+temp1 = millis();
 
-  if(!digitalRead(POSIZIONE_3) && pasDue){
-//    Serial.print(count);
-//    Serial.print(" sensore 3: ");
-    temp3 = millis();
-//    Serial.println(temp3);
-    pasTre = true;
-  }
+while(!digitalRead(POSIZIONE_2)){
+  
+}
 
-  if(!digitalRead(POSIZIONE_4) && pasTre){
-//    Serial.print(count);
-//    Serial.print(" sensore 4: ");
-    temp4 = millis();
-//    Serial.println(temp4);
-    pasQuattro = true;
-  }
+temp2 = millis();
 
-if (pasQuattro) {
+while(!digitalRead(POSIZIONE_3)){
+  
+}
+
+temp3 = millis();
+
+while(!digitalRead(POSIZIONE_4)){
+  
+}
+
+temp4 = millis();
+  
+//  if(!digitalRead(POSIZIONE_1)){
+//
+//    temp1 = millis();
+//
+//    pasUno = true;
+//  }
+// 
+//  if(!digitalRead(POSIZIONE_2) && pasUno){
+//
+//    temp2 = millis();
+//    pasDue = true;
+//
+//  }
+//
+//  if(!digitalRead(POSIZIONE_3) && pasDue){
+//
+//    temp3 = millis();
+//    pasTre = true;
+//  }
+//
+//  if(!digitalRead(POSIZIONE_4) && pasTre){
+//
+//    temp4 = millis();
+//    pasQuattro = true;
+//  }
+//
+//if (pasQuattro) {
   
   deltaTUno = abs(temp2 - temp1);
   deltaTDue = abs(temp3 - temp2);
@@ -103,10 +118,10 @@ if (pasQuattro) {
   Serial.print(sTre);
   Serial.println(" metri");
     
-  pasUno = pasDue = pasTre = pasQuattro = false;
+//  pasUno = pasDue = pasTre = pasQuattro = false;
 
   count ++;
-}
+//}
 
 //delay(200);
 
