@@ -1,6 +1,19 @@
 /*
 
-  i sensori sono distanti 20cm
+  A/S 2018/2019 - Liceo G.B.Vico
+  Esercitazione di fisica - Piano Inclinato
+  Prof.ssa Francesca Aurelio - Fisica
+  Prof. Diomede Mazzone - Coding
+
+  lungo un piano inclinato sono posti 4 sensori ad infrarosso a distanza costante.
+  i sensori rilevano un ostacolo con un angolo di rilevamento di circa 35°
+  
+  Arduino salva il tempo in millisecondi dei 4 passaggi e superato il quarto sensore
+  restitusce a monitor gli intervalli di tempo, intesi come differenze tra i tempi rilevati.
+
+  poichè il piano inclinato prevede anche angolazioni elevate si è scelto di utilizzare cicli di 
+  while per la rilevazione del passaggio ad ogni singolo sensore, così da avere una frequenza di
+  verifica dei sensori quanto più alta possibile.
  
 */
 
@@ -8,6 +21,14 @@
 #define POSIZIONE_2 3
 #define POSIZIONE_3 13
 #define POSIZIONE_4 10
+
+/*
+
+  Memorizzo le distanze reali tra i sensori perchè in alcune esercitazioni potrebbe
+  tornare utile restituire in output anche le velocità lungo i tratti
+
+*/
+
 
 float sUno = 0.2; //in metri
 float sDue = 0.2;
