@@ -1,12 +1,8 @@
 
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
+
   /***********************************************************************************
   ************************************************************************************
 
-=======
-/***********************************************************************************
-  ************************************************************************************
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
   * A/S 2018/2019 - Liceo G.B.Vico
   * Esercitazione di fisica - Piano Inclinato
   * Prof.ssa Francesca Aurelio - Fisica
@@ -25,27 +21,21 @@
   
   ************************************************************************************
   ************************************************************************************/
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
-=======
 
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
 
 #define POSIZIONE_1 5
 #define POSIZIONE_2 3
 #define POSIZIONE_3 13
 #define POSIZIONE_4 10
 
-/*
- *
+ /********************************************************************************** 
+ * 
  * Memorizzo le distanze reali tra i sensori perchè in alcune esercitazioni potrebbe
  * tornare utile restituire in output anche le velocità lungo i tratti
  *
-*/
+ **********************************************************************************/
 
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
 
-=======
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
 float sUno = 0.2; //in metri
 float sDue = 0.2;
 float sTre = 0.2;
@@ -78,25 +68,15 @@ pasQuattro = false;
 
 void loop() {
 
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
-/* 
-=======
  /* 
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
  * i cicli while sono bloccanti, quindi l'unica istruzione  
  * in esecuzione è la verifica del singolo sensore, fino a 
  * che non cambia stato. Una volta che cambia il valore 
  * rilevato cambia stato rimane bloccato in ascolto del 
  * sensore successivo.
- *
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
  */ 
-
-=======
- */   
   
   
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
 while(digitalRead(POSIZIONE_1)){
 //Serial.println("1");
 }
@@ -128,19 +108,12 @@ temp4 = millis();
   deltaTTre = abs(temp4 - temp3);
 
 
-/*
- * le istruzioni successive servono alla visualizzazione
- * dei dati tramite porta seriale, direttamente 
- * al monitor del PC.
- */
-  
- 
  /*
  * le istruzioni successive servono alla visualizzazione
  * dei dati tramite porta seriale, direttamente 
  * al monitor del PC.
  */
-  
+    
   
   Serial.println();
   Serial.print("Lancio numero ");
@@ -163,13 +136,8 @@ temp4 = millis();
   Serial.print(sTre);
   Serial.println(" metri");
     
-<<<<<<< HEAD:fisica_piano_inclinato/fisica_piano_inclinato.ino
- /*
-=======
-  pasUno = pasDue = pasTre = pasQuattro = false;
 
   /*
->>>>>>> fisica:fisica/fisica_piano_inclinato/fisica_piano_inclinato.ino
   * incrementa la variabile che tiene conto del numero di 
   * lanci effettuati
   */
