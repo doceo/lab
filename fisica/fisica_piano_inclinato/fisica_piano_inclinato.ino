@@ -51,9 +51,8 @@ bool pasUno, pasDue, pasTre, pasQuattro;
 
 void setup() {
   
-  //start serial connection
   Serial.begin(9600);
-  //configure pin 2 as an input and enable the internal pull-up resistor
+
   pinMode(POSIZIONE_1, INPUT);
   pinMode(POSIZIONE_2, INPUT);
   pinMode(POSIZIONE_3, INPUT);
