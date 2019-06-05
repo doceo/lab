@@ -16,7 +16,7 @@ int cicalino = 8;
 int attesaAcqua = 3000;
 int attesaServo = 2000;
 
-int angoloVasoUno =135;
+int angoloVasoUno =120;
 int angoloVasoDue =45; 
 int angoloRiposo = 90;
 
