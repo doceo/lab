@@ -6,7 +6,7 @@
 */
 
 #include <SPI.h>
-
+#include "RF24.h"
 
 byte addresses[][6] = {"1Node","2Node"};
 
