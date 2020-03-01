@@ -1,0 +1,10 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "braccio_h": "3.5",
+            "braccio_l": "3.5",
+            "braccio_p": "2"
+        }
+    },
+    "fileFormatVersion": "1"
+}
